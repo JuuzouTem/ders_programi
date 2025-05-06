@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Haftalık Ders Programım</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Haftalık Ders Programım</h1>
+
+        <div class="controls">
+            <input type="text" id="dersAdiInput" placeholder="Ders Adı Girin">
+            <input type="color" id="dersRenkInput" value="#2575fc" title="Ders Rengi Seçin">
+            <button id="dersOlusturBtn">Ders Kutucuğu Oluştur</button>
+        </div>
+
+        <div id="dersKutucuklariAlani" class="palette">
+            <h2>Kullanılabilir Dersler (Sürükle ve Bırak)</h2>
+            <!-- Oluşturulan ders kutucukları buraya eklenecek -->
+        </div>
+
+        <div class="schedule-wrapper">
+            <table id="dersProgramiTablosu">
+                <thead>
+                    <tr>
+                        <th>Saat</th>
+                        <th>Pazartesi</th>
+                        <th>Salı</th>
+                        <th>Çarşamba</th>
+                        <th>Perşembe</th>
+                        <th>Cuma</th>
+                        <th>Cumartesi</th>
+                        <th>Pazar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Saat dilimleri ve hücreler JavaScript ile oluşturulacak -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

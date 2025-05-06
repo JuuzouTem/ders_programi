@@ -1,0 +1,325 @@
+:root {
+    --primary-color: #6a11cb; /* Morumsu bir ana renk */
+    --secondary-color: #2575fc; /* Mavi bir ikincil renk */
+    --accent-color: #00c6ff; /* Canlı bir vurgu rengi */
+    --background-color: #f0f2f5; /* Yumuşak bir arka plan */
+    --card-background: #ffffff;
+    --text-color: #333; /* Koyu metin için temel renk */
+    --light-text-color: #f8f9fa; /* Açık metin için temel renk */
+    --border-color: #dee2e6;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --border-radius-sm: 6px;
+    --border-radius-md: 10px;
+    --font-family: 'Poppins', sans-serif;
+}
+
+body {
+    font-family: var(--font-family);
+    line-height: 1.7;
+    margin: 0;
+    padding: 25px;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* İçerik üste yaslansın */
+    min-height: 100vh;
+}
+
+.container {
+    width: 95%;
+    max-width: 1300px;
+    margin: auto;
+    background: var(--card-background);
+    padding: 25px 30px;
+    border-radius: var(--border-radius-md);
+    box-shadow: 0 8px 25px var(--shadow-color);
+}
+
+h1 {
+    text-align: center;
+    color: var(--primary-color);
+    margin-bottom: 30px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+h2 {
+    color: var(--text-color);
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.4em;
+    font-weight: 500;
+    border-bottom: 2px solid var(--secondary-color);
+    padding-bottom: 8px;
+    display: inline-block; /* Sadece yazı kadar alt çizgi */
+}
+
+.controls {
+    margin-bottom: 25px;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    justify-content: center; /* Buton ve inputu ortala */
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: var(--border-radius-sm);
+}
+
+.controls input[type="text"] {
+    padding: 12px 18px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    flex-grow: 1; /* Alanı doldursun */
+    max-width: 350px;
+    font-size: 1em;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.controls input[type="text"]:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(106, 17, 203, 0.25);
+}
+
+.controls input[type="color"] {
+    padding: 0;
+    height: 42px; 
+    width: 50px; 
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    background-color: transparent;
+}
+.controls input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 4px; 
+}
+.controls input[type="color"]::-webkit-color-swatch {
+    border: none;
+    border-radius: calc(var(--border-radius-sm) - 4px);
+}
+.controls input[type="color"]::-moz-color-swatch {
+  border: none;
+  border-radius: calc(var(--border-radius-sm) - 4px);
+}
+
+
+.controls button {
+    padding: 12px 25px;
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    color: var(--light-text-color);
+    border: none;
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 1em;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-size 0.3s ease;
+    background-size: 200% auto; /* Gradyan animasyonu için */
+}
+
+.controls button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    background-position: right center; /* Gradyanı kaydır */
+}
+
+.palette {
+    border: 1px dashed var(--border-color);
+    padding: 20px;
+    margin-bottom: 30px;
+    min-height: 90px;
+    background-color: #fdfdff;
+    border-radius: var(--border-radius-md);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: flex-start; /* H2 başlığı yukarıda kalacak şekilde */
+}
+
+.palette h2 {
+    width: 100%;
+    margin-bottom: 10px;
+    font-size: 1.2em;
+    color: var(--text-color);
+    border-bottom: none; /* Palet H2'sinde alt çizgi olmasın */
+    padding-bottom: 0;
+}
+
+.ders-kutusu {
+    padding: 10px 15px;
+    /* background ve color JS ile atanacak */
+    border-radius: var(--border-radius-sm);
+    cursor: grab;
+    user-select: none;
+    display: inline-block;
+    margin: 0; /* Gap ile boşluk ayarlandı */
+    font-size: 0.95em;
+    font-weight: 500;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease, background-color 0.3s ease;
+    position: relative; /* Silme butonu için */
+}
+
+.ders-kutusu:hover {
+    transform: scale(1.05) translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.ders-kutusu.dragging {
+    opacity: 0.6;
+    transform: scale(0.95);
+    cursor: grabbing;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.schedule-wrapper {
+    overflow-x: auto;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    box-shadow: 0 4px 10px var(--shadow-color);
+}
+
+#dersProgramiTablosu {
+    width: 100%;
+    border-collapse: separate; /* Hücreler arası boşluk için */
+    border-spacing: 0; /* Modern görünüm için */
+    margin-top: 0;
+}
+
+#dersProgramiTablosu th,
+#dersProgramiTablosu td {
+    border: 1px solid var(--border-color);
+    padding: 12px;
+    text-align: center;
+    min-width: 110px;
+    height: 75px; /* Min height for cells */
+    vertical-align: top;
+    position: relative;
+    transition: background-color 0.3s ease;
+}
+
+#dersProgramiTablosu th {
+    background-color: #e9ecef;
+    color: var(--primary-color);
+    font-weight: 600;
+    position: sticky; /* Kaydırma sırasında sabit kalması için */
+    top: 0;
+    z-index: 10;
+}
+#dersProgramiTablosu td:first-child, /* Saat sütunu */
+#dersProgramiTablosu th:first-child { /* Saat başlığı */
+    background-color: #f8f9fa;
+    font-weight: 500;
+    position: sticky;
+    left: 0;
+    z-index: 5; /* Gün başlıklarının üzerinde kalması için */
+}
+#dersProgramiTablosu th:first-child {
+    z-index: 15; /* En üstte */
+}
+
+
+#dersProgramiTablosu tbody td {
+    background-color: var(--card-background);
+}
+
+#dersProgramiTablosu tbody tr:nth-child(even) td:not(:first-child) { /* Çift satırlara farklı arka plan (saat sütunu hariç) */
+    background-color: #fbfbff;
+}
+
+#dersProgramiTablosu tbody td.drag-over {
+    background-color: rgba(106, 17, 203, 0.1);
+    border: 2px dashed var(--primary-color);
+}
+
+#dersProgramiTablosu td .ders-kutusu {
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    margin-bottom: 5px; /* Dersler arası dikey boşluk */
+    cursor: default;
+    font-size: 0.9em;
+    padding: 8px 10px;
+    /* background ve color JS ile atanacak */
+    animation: dropIn 0.3s ease-out;
+    display: block; /* Her ders kutusu kendi satırında olsun */
+}
+#dersProgramiTablosu td .ders-kutusu:last-child {
+    margin-bottom: 0; /* Son dersin altında ekstra boşluk olmasın */
+}
+
+@keyframes dropIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Yeni eklenen ders kutucukları için animasyon */
+.ders-kutusu.newly-added-to-palette {
+    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.5) translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+
+#dersProgramiTablosu td .ders-kutusu .delete-btn {
+    float: right;
+    cursor: pointer;
+    font-size: 1.2em; /* Çarpı boyutu */
+    padding: 0 3px; /* Tıklama alanı */
+    /* background-color kaldırıldı */
+    /* color JS ile atanacak */
+    border-radius: 50%;
+    width: 20px; /* İkon alanı */
+    height: 20px;
+    line-height: 18px; /* Dikey ortalama */
+    text-align: center;
+    display: none; /* Başlangıçta gizli */
+    transition: color 0.2s ease, transform 0.2s ease;
+    opacity: 0.7;
+}
+#dersProgramiTablosu td .ders-kutusu:hover .delete-btn {
+    display: inline-flex; /* Flex ile daha iyi ortalama */
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+}
+#dersProgramiTablosu td .ders-kutusu .delete-btn:hover {
+    /* background-color kaldırıldı */
+    color: var(--danger-color) !important; /* Hover rengi, JS'den gelen rengi ezer */
+    transform: scale(1.1);
+}
+
+/* Scrollbar stilleri (Webkit tarayıcılar için) */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: var(--border-radius-sm);
+}
+::-webkit-scrollbar-thumb {
+    background: #c5c5c5;
+    border-radius: var(--border-radius-sm);
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
