@@ -86,15 +86,15 @@ h2 {
 
 .controls input[type="color"] {
     padding: 0;
-    height: 42px; 
-    width: 50px; 
+    height: 42px;
+    width: 50px;
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius-sm);
     cursor: pointer;
     background-color: transparent;
 }
 .controls input[type="color"]::-webkit-color-swatch-wrapper {
-    padding: 4px; 
+    padding: 4px;
 }
 .controls input[type="color"]::-webkit-color-swatch {
     border: none;
@@ -149,31 +149,110 @@ h2 {
 
 .ders-kutusu {
     padding: 10px 15px;
-    /* background ve color JS ile atanacak */
     border-radius: var(--border-radius-sm);
-    cursor: grab;
     user-select: none;
     display: inline-block;
-    margin: 0; /* Gap ile boşluk ayarlandı */
+    margin: 0;
     font-size: 0.95em;
     font-weight: 500;
     text-align: center;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease, background-color 0.3s ease;
-    position: relative; /* Silme butonu için */
+    position: relative;
 }
+
+/* Palet içindeki ders kutuları için özel stiller */
+.palette .ders-kutusu {
+    cursor: grab;
+    display: flex; /* İçeriği (isim ve silme butonu) flex ile yönetmek için */
+    align-items: center;
+    justify-content: space-between; /* İsim sola, buton sağa yaslansın */
+    min-width: 120px; /* Minimum genişlik */
+}
+
+.ders-kutusu .course-name { /* Ders adını içeren span */
+    flex-grow: 1; /* Mümkün olduğunca yer kaplasın */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-right: 8px; /* Silme butonu ile arasında boşluk */
+    text-align: left;
+}
+
 
 .ders-kutusu:hover {
     transform: scale(1.05) translateY(-2px);
     box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
 
-.ders-kutusu.dragging {
-    opacity: 0.6;
-    transform: scale(0.95);
-    cursor: grabbing;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+/* Sürükleme önizlemesi için stil */
+.drag-preview {
+    padding: 10px 15px;
+    border-radius: var(--border-radius-sm);
+    font-size: 0.95em;
+    font-weight: 500;
+    text-align: center;
+    /* !important kullanarak diğer stilleri ezip daha belirgin olmasını sağlayabiliriz */
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3) !important;
+    transform: scale(1.1) rotate(3deg) !important;
+    opacity: 0.9 !important; /* Hafif transparan ama belirgin */
+    position: absolute; /* DOM'a eklendiğinde akışı bozmasın */
+    left: -9999px; /* Ekran dışında, sadece setDragImage için */
+    z-index: 10000; /* Diğer her şeyin üzerinde (teorik olarak) */
+    /* backgroundColor ve color JS ile ayarlanacak */
+    /* Paletten sürükleniyorsa, flex davranışını koruyalım */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
+.drag-preview .course-name { /* Önizleme içindeki ders adı */
+    flex-grow: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-right: 0; /* Silme butonu olmayacağı için margin-right'a gerek yok */
+    text-align: left;
+}
+
+
+/* Orijinal sürüklenen ders kutusunun stili */
+.ders-kutusu.dragging {
+    opacity: 0.4 !important; /* Daha soluk */
+    transform: scale(0.95) !important; /* Biraz küçülsün */
+    cursor: grabbing;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important;
+    /* Eğer önceden bir animasyon varsa onu kaldırabiliriz: */
+    /* animation: none !important; */
+}
+
+
+/* Palet üzerindeki ders kutularının silme butonu */
+.palette .ders-kutusu .delete-palette-item-btn {
+    cursor: pointer;
+    font-size: 1.3em;
+    padding: 0 3px;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    line-height: 18px; /* Dikey ortalama */
+    text-align: center;
+    display: inline-flex; /* Her zaman görünür ve flex ile ortalı */
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
+    opacity: 0.6; /* Başlangıçta biraz soluk */
+    flex-shrink: 0; /* Buton küçülmesin */
+}
+
+.palette .ders-kutusu:hover .delete-palette-item-btn {
+    opacity: 1; /* Hover'da tam opak */
+}
+
+.palette .ders-kutusu .delete-palette-item-btn:hover {
+    color: var(--danger-color) !important;
+    transform: scale(1.15);
+}
+
 
 .schedule-wrapper {
     overflow-x: auto;
@@ -240,16 +319,27 @@ h2 {
     box-sizing: border-box;
     margin: 0;
     margin-bottom: 5px; /* Dersler arası dikey boşluk */
-    cursor: default;
+    cursor: default; /* Tablodaki dersler sürüklenemez */
     font-size: 0.9em;
     padding: 8px 10px;
-    /* background ve color JS ile atanacak */
     animation: dropIn 0.3s ease-out;
-    display: block; /* Her ders kutusu kendi satırında olsun */
+    display: flex; /* İçeriği (isim ve silme butonu) flex ile yönetmek için */
+    align-items: center;
+    justify-content: space-between; /* İsim sola, buton sağa yaslansın */
 }
 #dersProgramiTablosu td .ders-kutusu:last-child {
     margin-bottom: 0; /* Son dersin altında ekstra boşluk olmasın */
 }
+/* Tablodaki ders kutusu içindeki ders adı için (palet ile aynı stil) */
+#dersProgramiTablosu td .ders-kutusu .course-name {
+    flex-grow: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-right: 5px;
+    text-align: left;
+}
+
 
 @keyframes dropIn {
     from {
@@ -279,31 +369,28 @@ h2 {
 }
 
 
-#dersProgramiTablosu td .ders-kutusu .delete-btn {
-    float: right;
+#dersProgramiTablosu td .ders-kutusu .delete-btn { /* Tablodaki derslerin silme butonu */
     cursor: pointer;
-    font-size: 1.2em; /* Çarpı boyutu */
-    padding: 0 3px; /* Tıklama alanı */
-    /* background-color kaldırıldı */
-    /* color JS ile atanacak */
+    font-size: 1.2em;
+    padding: 0 3px;
     border-radius: 50%;
-    width: 20px; /* İkon alanı */
+    width: 20px;
     height: 20px;
-    line-height: 18px; /* Dikey ortalama */
+    line-height: 18px;
     text-align: center;
     display: none; /* Başlangıçta gizli */
-    transition: color 0.2s ease, transform 0.2s ease;
+    transition: color 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
     opacity: 0.7;
+    flex-shrink: 0; /* Buton küçülmesin */
 }
 #dersProgramiTablosu td .ders-kutusu:hover .delete-btn {
-    display: inline-flex; /* Flex ile daha iyi ortalama */
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     opacity: 1;
 }
 #dersProgramiTablosu td .ders-kutusu .delete-btn:hover {
-    /* background-color kaldırıldı */
-    color: var(--danger-color) !important; /* Hover rengi, JS'den gelen rengi ezer */
+    color: var(--danger-color) !important;
     transform: scale(1.1);
 }
 
